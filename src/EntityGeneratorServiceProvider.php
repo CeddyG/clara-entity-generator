@@ -1,0 +1,44 @@
+<?php
+namespace CeddyG\ClaraEntityGenerator;
+
+use Illuminate\Support\ServiceProvider;
+
+/**
+ * Description of EntityServiceProvider
+ *
+ * @author CeddyG
+ */
+class EntityGeneratorServiceProvider extends ServiceProvider
+{
+    /**
+     * Bootstrap any application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        // Publish services
+        $sApp = realpath(__DIR__.'/app');
+
+        $this->publishes([
+            $sApp => base_path(),
+        ], 'services');
+
+        // Publish stubs
+        $sRessources = realpath(__DIR__.'/ressources');
+
+        $this->publishes([
+            $sRessources => base_path(),
+        ], 'stubs');
+    }
+
+    /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
+}

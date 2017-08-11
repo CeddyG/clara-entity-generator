@@ -1,0 +1,20 @@
+{
+    "name": "ceddyg/clara-entity-generator",
+    "description": "Repository to generate a CRUD system (Controller, model, repository, view using bootstrap, and more) scanning the shema of the database.",
+    "keywords": ["laravel", "clara", "crud", "entity"],
+    "authors": [
+        {
+            "name": "CeddyG"
+        }
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "~5.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "CeddyG\\ClaraEntityGenerator\\": "src/"
+        }
+    }
+}

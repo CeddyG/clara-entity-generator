@@ -1,8 +1,6 @@
 Clara entity generator
 ===============
 
-When you set the database informations, it will redirect you to the entity generator page.
-
 You can select all the table in it and define what file you want :
 
 - Controller
