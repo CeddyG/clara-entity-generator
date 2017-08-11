@@ -11,6 +11,13 @@ use Illuminate\Support\ServiceProvider;
 class EntityGeneratorServiceProvider extends ServiceProvider
 {
     /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = true;
+    
+    /**
      * Bootstrap any application services.
      *
      * @return void
@@ -21,14 +28,14 @@ class EntityGeneratorServiceProvider extends ServiceProvider
         $sApp = realpath(__DIR__.'/app');
 
         $this->publishes([
-            $sApp => base_path(),
+            $sApp => base_path().'/app',
         ], 'services');
 
         // Publish stubs
         $sRessources = realpath(__DIR__.'/ressources');
 
         $this->publishes([
-            $sRessources => base_path(),
+            $sRessources => base_path().'/ressources',
         ], 'stubs');
     }
 

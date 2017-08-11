@@ -1,6 +1,24 @@
 Clara entity generator
 ===============
 
+## Installation
+
+```php
+composer require ceddyg/clara-entity-generator
+```
+
+Add to your providers in 'config/app.php'
+```php
+CeddyG\ClaraEntityGenerator\EntityGeneratorServiceProvider::class,
+```
+
+Then to publish the files.
+```php
+php artisan vendor:publish --provider="CeddyG\ClaraEntityGenerator\EntityGeneratorServiceProvider"
+```
+
+## Use
+
 You can select all the table in it and define what file you want :
 
 - Controller
