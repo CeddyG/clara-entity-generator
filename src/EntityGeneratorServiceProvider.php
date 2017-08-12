@@ -25,10 +25,10 @@ class EntityGeneratorServiceProvider extends ServiceProvider
         ], 'services');
 
         // Publish stubs
-        $sRessources = realpath(__DIR__.'/ressources');
+        $sResources = realpath(__DIR__.'/resources');
 
         $this->publishes([
-            $sRessources => base_path().'/ressources',
+            $sResources => base_path().'/resources',
         ], 'stubs');
     }
 
