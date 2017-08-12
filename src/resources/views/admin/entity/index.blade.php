@@ -53,13 +53,13 @@
         </div>
     </div>
     {!! BootForm::open()->action( route('admin.entity.store') )->post() !!}
-    @foreach($objects as $table => $v)
+    @foreach($aTables as $sTable => $arelations)
     <div class="row">
         <div class="col-sm-8">
             <br>
-            <div id="box-{{ $table }}" class="box box-info">
+            <div id="box-{{ $sTable }}" class="box box-info">
                 <div class="box-header with-border">
-                    <h2 class="box-title">{{ $table }}</h2>
+                    <h2 class="box-title">{{ $sTable }}</h2>
                 </div>
                 <div class="box-body">
 
@@ -68,57 +68,57 @@
                         {!! BootForm::checkbox('All', '')
                             ->class('minimal all-check') !!}
 
-                        {!! BootForm::checkbox('Controller', 'table['.$table.'][controller]')
+                        {!! BootForm::checkbox('Controller', 'table['.$sTable.'][controller]')
                             ->class('minimal') !!}
 
-                        {!! BootForm::checkbox('Model', 'table['.$table.'][model]')
+                        {!! BootForm::checkbox('Model', 'table['.$sTable.'][model]')
                             ->class('minimal') !!}
 
-                        {!! BootForm::checkbox('Repository', 'table['.$table.'][repository]')
+                        {!! BootForm::checkbox('Repository', 'table['.$sTable.'][repository]')
                             ->class('minimal') !!}
 
-                        {!! BootForm::checkbox('Request', 'table['.$table.'][request]')
+                        {!! BootForm::checkbox('Request', 'table['.$sTable.'][request]')
                             ->class('minimal') !!}
 
-                        {!! BootForm::checkbox('Index view', 'table['.$table.'][index]')
+                        {!! BootForm::checkbox('Index view', 'table['.$sTable.'][index]')
                             ->class('minimal') !!}
 
-                        {!! BootForm::checkbox('Form view', 'table['.$table.'][form]')
+                        {!! BootForm::checkbox('Form view', 'table['.$sTable.'][form]')
                             ->class('minimal') !!}
 
-                        {!! BootForm::checkbox('Traduction', 'table['.$table.'][traduction]')
+                        {!! BootForm::checkbox('Traduction', 'table['.$sTable.'][traduction]')
                             ->class('minimal') !!}
 
-                        {!! BootForm::checkbox('Route web', 'table['.$table.'][routeweb]')
+                        {!! BootForm::checkbox('Route web', 'table['.$sTable.'][routeweb]')
                             ->class('minimal') !!}
 
-                        {!! BootForm::checkbox('Route api', 'table['.$table.'][routeapi]')
+                        {!! BootForm::checkbox('Route api', 'table['.$sTable.'][routeapi]')
                             ->class('minimal') !!}
 
-                        {!! BootForm::checkbox('Navbar', 'table['.$table.'][navbar]')
+                        {!! BootForm::checkbox('Navbar', 'table['.$sTable.'][navbar]')
                             ->class('minimal') !!}
                     </div>
 
                     <div class="col-sm-8 block-form">
                         <h4 class="box-title">Relations</h4>
-                        @if(count($v) > 0)
+                        @if(count($arelations) > 0)
                             <table class="table table-condensed table-bordered">
                                 <tr>
                                     <th>Table</th>
                                     <th>Relations</th>
                                 </tr>
-                                @foreach($v as $relation => $relats)
+                                @foreach($arelations as $sRelation => $aRelats)
 
                                     <tr>
                                         <td>
-                                            <big><b>{{ $relation }}</b></big>
+                                            <big><b>{{ $sRelation }}</b></big>
                                         </td>
                                         <td>
-                                            @if(count($relats) > 0)
+                                            @if(count($aRelats) > 0)
                                                 {!!
-                                                    BootForm::select('', 'related-'. $table.'[]')
+                                                    BootForm::select('', 'related-'. $sTable.'[]')
                                                         ->class('select2')
-                                                        ->options($aRelationOptions[$table])
+                                                        ->options($aRelationOptions[$sTable])
                                                         ->select('0')
                                                         ->attribute('autocomplete', 'off')
                                                 !!}

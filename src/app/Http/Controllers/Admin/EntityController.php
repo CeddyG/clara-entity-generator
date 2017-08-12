@@ -15,7 +15,7 @@ class EntityController extends Controller
 	    $aGotoOptions       = Entity::generateGotoSelectOptions($aTables);
 	    $aRelationOptions   = Entity::generateRelationSelectOptions($aTables);
         
-        return view('admin.entity.index', compact('objects', 'sPageTitle', 'aGotoOptions', 'aRelationOptions'));
+        return view('admin.entity.index', compact('aTables', 'sPageTitle', 'aGotoOptions', 'aRelationOptions'));
     }
     
     public function store(Request $oRequest)
