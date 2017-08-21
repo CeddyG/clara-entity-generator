@@ -20,7 +20,7 @@ DummyCSS
                             {!! BootForm::open()->action( route('admin.DummyPath.update', $oItem->DummyId) )->put() !!}
                             {!! BootForm::bind($oItem) !!}
                         @else
-                            {!! BootForm::open()->action( url('admin/DummyPath') )->post() !!}
+                            {!! BootForm::open()->action( route('admin.DummyPath.store') )->post() !!}
                         @endif
 
 DummyField
