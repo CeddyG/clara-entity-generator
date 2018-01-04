@@ -2,7 +2,7 @@
     
     <script type="text/javascript">
         $(document).ready(function() {
-            $('input[type=date]').datepicker({
+            $('.date-picker-input').datepicker({
                 format: 'dd/mm/yyyy',
                 autoclose: true,
                 todayHighlight: true,

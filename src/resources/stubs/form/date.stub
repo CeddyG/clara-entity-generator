@@ -1,3 +1,4 @@
                         {!! BootForm::inputGroup(trans('DummyTable.DummyName'), 'DummyName')
-                            ->type('date')
+                            ->type('text')
+							->class('date-picker-input form-control')
                             ->beforeAddon('<i class="fa fa-calendar"></i>') !!}
