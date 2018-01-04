@@ -1,5 +1,5 @@
     <!-- iCheck -->
-    {!! Html::style('/adminlte/plugins/iCheck/all.css') !!}
+    {!! Html::style('adminlte/plugins/iCheck/all.css') !!}
 
     <style>
         .wrapper-icheckbox

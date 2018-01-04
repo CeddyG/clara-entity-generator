@@ -1,4 +1,4 @@
-    {!! Html::script('https://cdn.ckeditor.com/4.4.3/standard/ckeditor.js') !!}
+    {!! Html::script('bower_components/ckeditor/ckeditor.js') !!}
     
     <script>
         $(function () {

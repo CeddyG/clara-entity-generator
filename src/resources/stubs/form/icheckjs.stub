@@ -1,5 +1,5 @@
     <!-- ICheck -->
-    <script src="{{ asset ("/adminlte/plugins/iCheck/icheck.min.js") }}"></script>
+    {!! Html::script(adminlte/plugins/iCheck/icheck.min.js') !!}
     
     <script type="text/javascript">
         $(document).ready(function() {
