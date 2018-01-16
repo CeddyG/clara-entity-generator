@@ -2,10 +2,10 @@
 
 @section('CSS')
     <!-- iCheck -->
-    <link href="{{ asset("/adminlte/plugins/iCheck/all.css")}}" rel="stylesheet" type="text/css" />
+    {!! Html::style('adminlte/plugins/iCheck/all.css') !!}
 
     <!-- Select 2 -->
-    {!! Html::style('/adminlte/plugins/select2/select2.min.css') !!}
+    {!! Html::style('bower_components/select2/dist/css/select2.min.css') !!}
 
     <style>
         .select2
@@ -146,9 +146,9 @@
 @stop
 
 @section('JS')
-    <script src="{{ asset ("/adminlte/plugins/iCheck/icheck.min.js") }}"></script>
+    {!! Html::script('adminlte/plugins/iCheck/icheck.min.js') !!}
     <!-- Select 2 -->
-    {!! Html::script('/adminlte/plugins/select2/select2.full.min.js') !!}
+    {!! Html::script('bower_components/select2/dist/js/select2.full.min.js') !!}
 
     <script type="text/javascript">
         $(document).ready(function() {
@@ -192,6 +192,6 @@
             }
 
             location.hash = '#'+ref;
-        })
+        });
     </script>
 @endsection
