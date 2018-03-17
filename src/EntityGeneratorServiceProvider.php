@@ -1,6 +1,7 @@
 <?php
 namespace CeddyG\ClaraEntityGenerator;
 
+use CeddyG\ClaraEntityGenerator\app\Console\Commands\GenerateEntityCommand;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -39,6 +40,15 @@ class EntityGeneratorServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(
+            'command.entity.generate',
+            function ($app) {
+                return new GenerateEntityCommand();
+            }
+        );
+
+        $this->commands([
+            'command.entity.generate'
+        ]);
     }
 }
