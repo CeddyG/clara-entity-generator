@@ -52,7 +52,7 @@
             {!! BootForm::close() !!}
         </div>
     </div>
-    {!! BootForm::open()->action( route('admin.entity.store') )->post() !!}
+    {!! BootForm::open()->action(route('clara-entity.store'))->post() !!}
     @foreach($aTables as $sTable => $arelations)
     <div class="row">
         <div class="col-sm-8">
@@ -67,36 +67,13 @@
                         <h4 class="box-title">Files</h4>
                         {!! BootForm::checkbox('All', '')
                             ->class('minimal all-check') !!}
+                            
+                        @foreach ($aGenerators as $sName => $sLabel)
 
-                        {!! BootForm::checkbox('Controller', 'table['.$sTable.'][controller]')
-                            ->class('minimal') !!}
-
-                        {!! BootForm::checkbox('Model', 'table['.$sTable.'][model]')
-                            ->class('minimal') !!}
-
-                        {!! BootForm::checkbox('Repository', 'table['.$sTable.'][repository]')
-                            ->class('minimal') !!}
-
-                        {!! BootForm::checkbox('Request', 'table['.$sTable.'][request]')
-                            ->class('minimal') !!}
-
-                        {!! BootForm::checkbox('Index view', 'table['.$sTable.'][index]')
-                            ->class('minimal') !!}
-
-                        {!! BootForm::checkbox('Form view', 'table['.$sTable.'][form]')
-                            ->class('minimal') !!}
-
-                        {!! BootForm::checkbox('Traduction', 'table['.$sTable.'][traduction]')
-                            ->class('minimal') !!}
-
-                        {!! BootForm::checkbox('Route web', 'table['.$sTable.'][routeweb]')
-                            ->class('minimal') !!}
-
-                        {!! BootForm::checkbox('Route api', 'table['.$sTable.'][routeapi]')
-                            ->class('minimal') !!}
-
-                        {!! BootForm::checkbox('Navbar', 'table['.$sTable.'][navbar]')
-                            ->class('minimal') !!}
+                            {!! BootForm::checkbox($sLabel, 'table['.$sTable.']['.$sName.']')
+                                ->class('minimal') !!}
+                                
+                        @endforeach
                     </div>
 
                     <div class="col-sm-8 block-form">
@@ -123,7 +100,7 @@
                                                         ->attribute('autocomplete', 'off')
                                                 !!}
                                             @else
-                                                {{ __('entity.standard_relation') }}
+                                                {{ __('clara-entity::entity.standard_relation') }}
                                             @endif
                                         </td>
                                     </tr>
@@ -131,7 +108,7 @@
                                 @endforeach
                             </table>
                         @else
-                        <div class="row no-relation"><b>{{ __('entity.no_relations') }}</b></div>
+                        <div class="row no-relation"><b>{{ __('clara-entity::entity.no_relations') }}</b></div>
                         @endif
                     </div>
                 </div>

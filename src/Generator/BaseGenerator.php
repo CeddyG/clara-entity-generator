@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Clara\Generator;
+namespace CeddyG\ClaraEntityGenerator\Generator;
 
 use File;
 
@@ -21,13 +21,27 @@ abstract class BaseGenerator
     static $STUB;
     
     /**
+     * Generate the file.
+     * 
+     * @return void
+     */
+    abstract public function generate();
+
+    /**
      * Get the stub.
      * 
      * @return string
      */
     protected static function getStub()
     {
-        return base_path().'/resources/stubs/'. static::$STUB .'.stub';
+        if (File::exists(base_path().'/resources/blueprints/'. static::$STUB .'.stub'))
+        {
+            return base_path().'/resources/blueprints/'. static::$STUB .'.stub';
+        }
+        else
+        {
+            return __DIR__.'/../../resources/blueprints/'. static::$STUB .'.stub';            
+        }
     }
     
     /**

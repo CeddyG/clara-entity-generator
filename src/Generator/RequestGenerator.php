@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Clara\Generator;
+namespace CeddyG\ClaraEntityGenerator\Generator;
 
 class RequestGenerator extends BaseGenerator
 {
@@ -23,7 +23,7 @@ class RequestGenerator extends BaseGenerator
      * 
      * @return void
      */
-    public function generate($sName, $aColumns)
+    public function generate($sName = '', $aColumns = '')
     {
         $aRules = $this->getRules($aColumns);
         

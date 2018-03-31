@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Clara\Generator;
+namespace CeddyG\ClaraEntityGenerator\Generator;
 
 class IndexGenerator extends BaseGenerator
 {
@@ -30,7 +30,7 @@ class IndexGenerator extends BaseGenerator
      * 
      * @return void
      */
-    public function generate($sFolder, $aColumns)
+    public function generate($sFolder = '', $aColumns = '')
     {
         $sId        = 'id';
         $aFields    = [

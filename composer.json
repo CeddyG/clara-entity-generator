@@ -16,5 +16,12 @@
         "psr-4": {
             "CeddyG\\ClaraEntityGenerator\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CeddyG\\ClaraEntityGenerator\\EntityGeneratorServiceProvider"
+            ]
+        }
     }
 }

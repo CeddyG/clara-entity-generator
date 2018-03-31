@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Clara\Generator;
+namespace CeddyG\ClaraEntityGenerator\Generator;
 
 use File;
 
@@ -25,7 +25,7 @@ class FormGenerator extends BaseGenerator
      * 
      * @var string
      */
-    private static $STUB_DIR = '/resources/stubs/form/';
+    private static $STUB_DIR = '/resources/blueprints/form/';
 
     /**
      * Column to exclude.
@@ -74,7 +74,7 @@ class FormGenerator extends BaseGenerator
      * 
      * @return void
      */
-    public function generate($sTable, $sFolder, $aColumns, $aRelations)
+    public function generate($sTable = '', $sFolder = '', $aColumns = '', $aRelations = '')
     {
         $sId    = 'id';
         $sField = $this->buildFields($sId, $sTable, $aColumns);
@@ -274,9 +274,16 @@ class FormGenerator extends BaseGenerator
     {
         if (!isset($this->aStubs[$sName]))
         {
-            $this->aStubs[$sName] = File::get(
-                base_path().self::$STUB_DIR.$sName.'.stub'
-            );
+            if (File::exists(base_path().static::$STUB_DIR.$sName.'.stub'))
+            {
+                $sFile = base_path().static::$STUB_DIR.$sName.'.stub';
+            }
+            else
+            {
+                $sFile = __DIR__.'/../../'. static::$STUB_DIR.$sName.'.stub';            
+            }
+            
+            $this->aStubs[$sName] = File::get($sFile);
         }
         
         return $this->aStubs[$sName];

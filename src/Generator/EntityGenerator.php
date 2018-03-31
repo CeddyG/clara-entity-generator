@@ -1,18 +1,36 @@
 <?php
 
-namespace App\Services\Clara\Generator;
-
-use Facades\App\Services\Clara\Generator\FormGenerator;
-use Facades\App\Services\Clara\Generator\IndexGenerator;
-use Facades\App\Services\Clara\Generator\ModelGenerator;
-use Facades\App\Services\Clara\Generator\RequestGenerator;
-use Facades\App\Services\Clara\Generator\ControllerGenerator;
-use Facades\App\Services\Clara\Generator\RepositoryGenerator;
-use Facades\App\Services\Clara\Generator\TraductionGenerator;
+namespace CeddyG\ClaraEntityGenerator\Generator;
 
 class EntityGenerator
 {    
-    public static function generate($sName, $sTable, $sFolder, $aMany, $aFiles)
+    protected $aGenerator = [];
+    
+    protected $aParameters = [];
+
+    public function __construct(array $aGenerator)
+    {
+        $this->aGenerator = $aGenerator;
+        
+        $this->getParameters();
+    }
+    
+    private function getParameters()
+    {
+        foreach ($this->aGenerator as $sIndex => $oGenerator)
+        {
+            $oReflection = new \ReflectionMethod($oGenerator, 'generate');
+            $aParameters = $oReflection->getParameters();
+            
+            $this->aParameters[$sIndex] = [];            
+            foreach ($aParameters as $oParameter)
+            {
+                $this->aParameters[$sIndex][] = $oParameter->getName();
+            }
+        }
+    }
+
+    public function generate($sName, $sTable, $sFolder, $aMany, $aFiles)
     {
         //Table name
         $sTable = strtolower($sTable);
@@ -23,26 +41,16 @@ class EntityGenerator
         //We get the table relations
         $aRelations = self::getRelations($sTable, $aMany);
         
-        if (isset($aFiles['form']))
-            FormGenerator::generate($sTable, $sFolder, $aColumns, $aRelations);
-        
-        if (isset($aFiles['index']))
-            IndexGenerator::generate($sFolder, $aColumns);
-        
-        if (isset($aFiles['model']))
-            ModelGenerator::generate($sName, $sTable, $aColumns, $aRelations);
-        
-        if (isset($aFiles['request']))
-            RequestGenerator::generate($sName, $aColumns);
-        
-        if (isset($aFiles['controller']))
-            ControllerGenerator::generate($sName, $sFolder);
-        
-        if (isset($aFiles['repository']))
-            RepositoryGenerator::generate($sName, $sTable, $aColumns, $aRelations);
-        
-        if (isset($aFiles['traduction']))
-            TraductionGenerator::generate($sTable, $sFolder, $aColumns);
+        foreach ($aFiles as $sIndex => $sValue)
+        {
+            $aParameters = [];
+            foreach ($this->aParameters[$sIndex] as $sParameter)
+            {
+                $aParameters[] = $$sParameter;
+            }
+            
+            call_user_func_array([$this->aGenerator[$sIndex], 'generate'], $aParameters);
+        }
     }
     
     private static function getTablesDetails($sTableName)
@@ -69,22 +77,22 @@ class EntityGenerator
         $oTable = self::getTablesDetails($sTableName);
         
         //array of \Doctrine\DBAL\Schema\Column
-        $aColumns = $oTable->getColumns(); 
-        $aForeignKey = $oTable->getForeignKeys();
+        $aColumns       = $oTable->getColumns(); 
+        $aForeignKey    = $oTable->getForeignKeys();
         
         $aFk = [];
         foreach($aForeignKey as $oFk)
         {
             $aFk[] = [
-                "column"    => $oFk->getColumns()[0],
-                "table"     => $oFk->getForeignTableName()
+                'column'    => $oFk->getColumns()[0],
+                'table'     => $oFk->getForeignTableName()
             ];
         }
         
         return self::formatteColumns($aColumns, $aFk, $oTable);
     }
     
-    private static function formatteColumns(array $aColumns, $aFk, $oTable)
+    private static function formatteColumns(array $aColumns, array $aFk, $oTable)
     {
         $aFormattedColumn = [];
         
@@ -116,7 +124,7 @@ class EntityGenerator
         else if(in_array($oColumn->getName(), array_column($aFk, 'column')))
         {
             $iKey       = array_search($oColumn->getName(), array_column($aFk, 'column'));
-            $sTableFk   = $aFk[$iKey]["table"];
+            $sTableFk   = $aFk[$iKey]['table'];
             
             if ($sTableFk == $oTable->getName())
             { 

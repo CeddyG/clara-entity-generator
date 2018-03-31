@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Clara\Generator;
+namespace CeddyG\ClaraEntityGenerator\Generator;
 
 class TraductionGenerator extends BaseGenerator
 {
@@ -23,7 +23,7 @@ class TraductionGenerator extends BaseGenerator
      * 
      * @return void
      */
-    public function generate($sTable, $sFolder, $aColumns)
+    public function generate($sTable = '', $sFolder = '', $aColumns = '')
     {
         $aTrad  = ["    '". $sTable ."' => '". ucfirst(str_replace('_', ' ', $sTable)) ."'"];
         $sClass = str_replace('_', ' ', $sTable);
@@ -38,7 +38,7 @@ class TraductionGenerator extends BaseGenerator
                 $sTmpTrad = str_replace('_fk', '', $sTmpTrad);
                 $sTmpTrad = str_replace('_', ' ', $sTmpTrad);
                 
-                $aTrad[] = "    '". $aColumn['field'] ."' => '". ucfirst($sTmpTrad) ."'";
+                $aTrad[] = "    '".$aColumn['field']."' => '".ucfirst($sTmpTrad)."'";
             }
         }
         

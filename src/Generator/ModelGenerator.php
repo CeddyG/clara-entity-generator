@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Clara\Generator;
+namespace CeddyG\ClaraEntityGenerator\Generator;
 
 use File;
 
@@ -25,7 +25,7 @@ class ModelGenerator extends BaseGenerator
      * 
      * @var string
      */
-    static $STUB_DIR = '/resources/stubs/model/';
+    static $STUB_DIR = '/resources/blueprints/model/';
 
     /**
      * Column to exclude.
@@ -46,7 +46,7 @@ class ModelGenerator extends BaseGenerator
      * 
      * @return void
      */
-    public function generate($sName, $sTable, $aColumns, $aRelations)
+    public function generate($sName = '', $sTable = '', $aColumns = '', $aRelations = '')
     {
         $sId = 'id';
         
@@ -181,9 +181,16 @@ class ModelGenerator extends BaseGenerator
     {
         if (!isset($this->aStubs[$sName]))
         {
-            $this->aStubs[$sName] = File::get(
-                base_path().static::$STUB_DIR.$sName.'.stub'
-            );
+            if (File::exists(base_path().static::$STUB_DIR.$sName.'.stub'))
+            {
+                $sFile = base_path().static::$STUB_DIR.$sName.'.stub';
+            }
+            else
+            {
+                $sFile = __DIR__.'/../../'. static::$STUB_DIR.$sName.'.stub';            
+            }
+            
+            $this->aStubs[$sName] = File::get($sFile);
         }
         
         return $this->aStubs[$sName];
@@ -236,7 +243,7 @@ class ModelGenerator extends BaseGenerator
     
     public function getFunctionHasMany($aRelation)
     {
-        $sModel     = ucfirst(camel_case($aRelation['related']));
+        $sModel = ucfirst(camel_case($aRelation['related']));
         
         $sStub = $this->getSpecificStub('hasmany');
         $sStub = str_replace('DummyFunction', $aRelation['related'], $sStub);

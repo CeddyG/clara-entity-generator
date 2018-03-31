@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Clara\Generator;
+namespace CeddyG\ClaraEntityGenerator\Generator;
 
 class RepositoryGenerator extends ModelGenerator
 {
@@ -23,7 +23,7 @@ class RepositoryGenerator extends ModelGenerator
      * 
      * @var string
      */
-    static $STUB_DIR = '/resources/stubs/repository/';
+    static $STUB_DIR = '/resources/blueprints/repository/';
     
     /**
      * Array to contains all function (belongsTo, belongsToMany and hasMany)
@@ -37,7 +37,7 @@ class RepositoryGenerator extends ModelGenerator
      * 
      * @return void
      */
-    public function generate($sName, $sTable, $aColumns, $aRelations)
+    public function generate($sName = '', $sTable = '', $aColumns = '', $aRelations = '')
     {
         $sId = 'id';
         

@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Services\Clara\Generator;
+namespace CeddyG\ClaraEntityGenerator;
 
-use File;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
-use App\Services\Clara\Generator\EntityGenerator;
 
-class EntityService
+class Entity
 {
     private static $aDontTouchTables = [
         'dataflow',
@@ -31,6 +29,19 @@ class EntityService
         $aTablesRelations   = self::getTablesRelation($oTablesList, $oSchemaManager);
         
         return self::mergeRelationTables($aTablesName, $aTablesRelations);
+    }
+    
+    public static function getGenerators()
+    {
+        $aConfigs = config('clara.entity.generators');
+        
+        $aReturn = [];
+        foreach ($aConfigs as $aConfig)
+        {
+            $aReturn[$aConfig['name']] = $aConfig['label'];
+        }
+        
+        return $aReturn;
     }
     
     private static function getSchemaManager()
@@ -131,73 +142,17 @@ class EntityService
     
     public static function store($aInputs)
     {
-        $sRoutes    = "";
-        $sRoutesApi = "";
-        $sNavbar    = "";
-        
-        $sRoutesFile    = File::get(base_path().'/routes/web.php');
-        $sRoutesApiFile = File::get(base_path().'/routes/api.php');
-        $sNavbarFile    = File::get(base_path().'/app/Providers/AdminNavbarServiceProvider.php');
+        $oGenerator = app('clara.entity.generator');
         
         foreach($aInputs['table'] as $sTable => $aFiles)
         {
             $sName      = ucfirst(camel_case($sTable));
-            $sTitle     = ucwords(str_replace('_', ' ', $sTable));
             $sFolder    = str_replace('_', '-', $sTable);
             
             $aMany = self::setPivotRelationTable($sTable, $aInputs);
             
-            EntityGenerator::generate($sName, $sTable, $sFolder, $aMany, $aFiles);
-            
-            if(isset($aFiles['routeweb']))
-            {
-	            $sRoutes    .= (strpos($sRoutesFile, '\''.$sName.'Controller\'') === false)
-		            ? "Route::resource('".$sFolder."', '".$sName."Controller', ['names' => 'admin.". $sFolder ."']);\n\t"
-		            : '';
-            }
-            
-	        if(isset($aFiles['routeapi'])) 
-            {
-		        $sRoutesApi .= (strpos($sRoutesApiFile, '\''.$sName.'Controller@indexAjax\'') === false)
-			        ? "Route::get('".$sFolder."/index/ajax', '".$sName."Controller@indexAjax')->name('admin.".$sFolder.".index.ajax');\n\t"
-			        : '';
-	        }
-	
-	        if(isset($aFiles['routeapi'])) 
-            {
-		        $sRoutesApi .= (strpos($sRoutesApiFile, '\''.$sName.'Controller@selectAjax\'') === false)
-			        ? "Route::get('".$sFolder."/select/ajax', '".$sName."Controller@selectAjax')->name('admin.".$sFolder.".select.ajax');\n\t"
-			        : '';
-	        }
-	
-	        if(isset($aFiles['navbar'])) 
-            {
-		        $sNavbar    .= (strpos($sNavbarFile, 'admin/'.$sFolder) === false)
-			        ? "['title' => '".$sTitle."', 'link' => URL('admin/".$sFolder."')],\n\t\t"
-			        : '';
-	        }
-	
-	        if(isset($aFiles['migration'])) 
-            {
-		        Artisan::call('migrate:generate '.$sTable);
-	        }         
+            $oGenerator->generate($sName, $sTable, $sFolder, $aMany, $aFiles);       
         }
-        
-        $sRoutes    .= "//DummyControllers";
-        $sRoutesApi .= "//DummyIndex";
-        $sNavbar    .= "//DummyNavbar";
-        
-        //Add Controllers to routes
-        $sRoutesFile = str_replace('//DummyControllers', $sRoutes, $sRoutesFile);
-        File::put(base_path().'/routes/web.php', $sRoutesFile);
-        
-        //Add Controllers to API routes
-        $sRoutesApiFile = str_replace('//DummyIndex', $sRoutesApi, $sRoutesApiFile);
-        File::put(base_path().'/routes/api.php', $sRoutesApiFile);
-        
-        //Add Controllers to menu
-        $sNavbarFile = str_replace('//DummyNavbar', $sNavbar, $sNavbarFile);
-        File::put(base_path().'/app/Providers/AdminNavbarServiceProvider.php', $sNavbarFile);
     }
     
     private static function setPivotRelationTable($sTable, $aInputs)
@@ -225,7 +180,7 @@ class EntityService
     
     public static function generateGotoSelectOptions($aTables)
     {
-    	$aOptions = ['' => __('entity.choose_a_table')];
+    	$aOptions = ['' => __('clara-entity::entity.choose_a_table')];
 	    foreach($aTables as $sTable => $null)
         {
 		    $aOptions['box-'.$sTable] = $sTable;
@@ -239,13 +194,13 @@ class EntityService
 		$aOptions = [];
 		foreach($aTables as $sTable => $aRelations)
         {
-			$aOptions[$sTable] = array('0' => __('entity.standard_relation'));
+			$aOptions[$sTable] = array('0' => __('clara-entity::entity.standard_relation'));
             
 			foreach($aRelations as $sRelation => $aRelatedTabs)
             {
 				foreach($aRelatedTabs as $sRelated => $sValue)
                 {
-					$aOptions[$sTable][$sValue] = __('entity.related_with', ['table' => $sRelated]);
+					$aOptions[$sTable][$sValue] = __('clara-entity::entity.related_with', ['table' => $sRelated]);
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Clara\Generator;
+namespace CeddyG\ClaraEntityGenerator\Generator;
 
 class ControllerGenerator extends BaseGenerator
 {
@@ -23,7 +23,7 @@ class ControllerGenerator extends BaseGenerator
      * 
      * @return void
      */
-    public function generate($sName, $sFolder)
+    public function generate($sName = '', $sFolder = '')
     {
         self::createFile($sName.'Controller.php', [
             'Class'         => $sName.'Controller',
