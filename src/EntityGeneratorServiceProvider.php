@@ -4,7 +4,7 @@ namespace CeddyG\ClaraEntityGenerator;
 use Illuminate\Support\ServiceProvider;
 
 use CeddyG\ClaraEntityGenerator\Generator\EntityGenerator;
-use CeddyG\ClaraEntityGenerator\app\Console\Commands\GenerateEntityCommand;
+use CeddyG\ClaraEntityGenerator\Console\GenerateEntityCommand;
 
 /**
  * Description of EntityServiceProvider
