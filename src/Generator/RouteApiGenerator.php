@@ -2,6 +2,8 @@
 
 namespace CeddyG\ClaraEntityGenerator\Generator;
 
+use Config;
+
 class RouteApiGenerator extends BaseGenerator
 {
     /*
@@ -25,7 +27,10 @@ class RouteApiGenerator extends BaseGenerator
      */
     public function generate($sName = '', $sFolder = '')
     {
-        $aConfig = config('clara.route.api', []) + [$sFolder => $sName];
+        $aConfig = config('clara.route.api', []);
+        $aConfig[$sFolder]  = $sName;
+        
+        Config::set('clara.route.api', $aConfig);
         
         $aNewConfig = [];
         foreach ($aConfig as $sKey => $sValue)
