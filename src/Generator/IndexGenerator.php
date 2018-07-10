@@ -38,7 +38,7 @@ class IndexGenerator extends BaseGenerator
             'body' => []
         ];
         
-        $this->buildFields($aFields, $sId, $aColumns);
+        $this->buildFields($aFields, $sId, $aColumns, $sFolder);
         
         self::createFile($sFolder.'/index.blade.php', [
             'ColName'   => $aFields['head'],
@@ -78,7 +78,7 @@ class IndexGenerator extends BaseGenerator
      * 
      * @return void
      */
-    private function buildFields(&$aFields, &$sId, $aColumns)
+    private function buildFields(&$aFields, &$sId, $aColumns, $sFolder)
     {
         $i = 0;
         
@@ -88,7 +88,7 @@ class IndexGenerator extends BaseGenerator
             
             if(!in_array($aColumn['field'], $this->aExclude))
             {
-                $this->getField($aFields, $aColumn);
+                $this->getField($aFields, $aColumn, $sFolder);
                 $i++;
             }
             
@@ -98,8 +98,8 @@ class IndexGenerator extends BaseGenerator
             }
         }
         
-        $aFields['head'] = implode("\r\t\t", $aFields['head']);
-        $aFields['body'] = implode("\r\t\t", $aFields['body']);
+        $aFields['head'] = implode("\r\t\t\t\t\t", $aFields['head']);
+        $aFields['body'] = implode("\r\t\t\t\t\t", $aFields['body']);
     }
     
     /**
@@ -110,7 +110,7 @@ class IndexGenerator extends BaseGenerator
      * 
      * @return void
      */
-    private function getField(&$aFields, $aColumn)
+    private function getField(&$aFields, $aColumn, $sFolder)
     {
         switch ($aColumn['type'])
         {
@@ -121,8 +121,8 @@ class IndexGenerator extends BaseGenerator
             case"decimal":
             case"float":  
             case"date":
-                $aFields['head'][] = '    <th>'. str_replace('_', ' ', ucfirst($aColumn['field'])) .'</th>';
-                $aFields['body'][] = '    { \'data\': \''. $aColumn['field'] .'\' },';
+                $aFields['head'][] = '<th>{{ __(\''.$sFolder.'.'.$aColumn['field'].'\') }}</th>';
+                $aFields['body'][] = '{ \'data\': \''. $aColumn['field'] .'\' },';
                 break;
         }
     }

@@ -25,7 +25,7 @@
                 <thead>
                 <tr>
                     <th>ID</th>
-                DummyColName
+                    DummyColName
                     <th></th>
                     <th></th>
                 </tr>
@@ -55,7 +55,7 @@
                 },
                 columns: [
                     { 'data': 'DummyId' },
-                DummyCol
+                    DummyCol
                     {
                         "data": "DummyId",
                         "render": function ( data, type, row, meta ) {
