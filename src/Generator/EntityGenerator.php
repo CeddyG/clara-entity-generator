@@ -40,7 +40,6 @@ class EntityGenerator
         
         //We get the table relations
         $aRelations = self::getRelations($sTable, $aMany);
-        
         foreach ($aFiles as $sIndex => $sValue)
         {
             $aParameters = [];
@@ -72,7 +71,7 @@ class EntityGenerator
         return $oShemaManager->listTableDetails($sTableName); 
     }
     
-    private static function getColumns($sTableName)
+    private static function getColumns($sTableName, $bWithForeignDetail = true)
     {
         $oTable = self::getTablesDetails($sTableName);
         
@@ -89,10 +88,10 @@ class EntityGenerator
             ];
         }
         
-        return self::formatteColumns($aColumns, $aFk, $oTable);
+        return self::formatteColumns($aColumns, $aFk, $oTable, $bWithForeignDetail);
     }
     
-    private static function formatteColumns(array $aColumns, array $aFk, $oTable)
+    private static function formatteColumns(array $aColumns, array $aFk, $oTable, $bWithForeignDetail = true)
     {
         $aFormattedColumn = [];
         
@@ -104,7 +103,7 @@ class EntityGenerator
             $aColumn['type']     = $oColumn->getType()->getName();
             $aColumn['length']   = $oColumn->getLength();
             
-            self::checkForKey($aColumn, $oTable, $oColumn, $aFk);
+            self::checkForKey($aColumn, $oTable, $oColumn, $aFk, $bWithForeignDetail);
             
             $aFormattedColumn[] = $aColumn;
         }
@@ -112,7 +111,7 @@ class EntityGenerator
         return $aFormattedColumn;
     }
     
-    private static function checkForKey(&$aColumn, $oTable, $oColumn, $aFk)
+    private static function checkForKey(&$aColumn, $oTable, $oColumn, $aFk, $bWithForeignDetail = true)
     {
         $aColumn['exclude'] = false;
         
@@ -126,31 +125,35 @@ class EntityGenerator
             $iKey       = array_search($oColumn->getName(), array_column($aFk, 'column'));
             $sTableFk   = $aFk[$iKey]['table'];
             
-            if ($sTableFk == $oTable->getName())
-            { 
-                $aFields['first_field'] = $oTable->getPrimaryKey()->getColumns()[0];   
-                $aColumns = $oTable->getColumns();
-                
-                foreach ($aColumns as $oColumn2)
-                {
-                    if (
-                        !in_array($oColumn2->getName(), array_column($aFk, 'column'))
-                        && $aFields['first_field'] != $oColumn2->getName()
-                    )
+            if ($bWithForeignDetail)
+            {
+                if ($sTableFk == $oTable->getName())
+                { 
+                    $aFields['first_field'] = $oTable->getPrimaryKey()->getColumns()[0];   
+                    $aColumns = $oTable->getColumns();
+
+                    foreach ($aColumns as $oColumn2)
                     {
-                        $aFields['first_field'] = $oColumn2->getName();
-                        break;
+                        if (
+                            !in_array($oColumn2->getName(), array_column($aFk, 'column'))
+                            && $aFields['first_field'] != $oColumn2->getName()
+                        )
+                        {
+                            $aFields['first_field'] = $oColumn2->getName();
+                            break;
+                        }
                     }
                 }
-            }
-            else
-            {
-                $aFields = self::getPrimaryAndFirstField($sTableFk);
+                else
+                {
+                    $aFields = self::getPrimaryAndFirstField($sTableFk);
+                }
+                
+                $aColumn['name_field']  = $aFields['first_field'];
             }
             
             $aColumn['tableFk']     = $sTableFk;
             $aColumn['key']         = 'FK';
-            $aColumn['name_field']  = $aFields['first_field'];
         }
         else
         {
@@ -225,7 +228,7 @@ class EntityGenerator
     
     private static function getPrimaryAndFirstField($sRelatedTab)
     {
-        $aRelatedColumns = self::getColumns($sRelatedTab);
+        $aRelatedColumns = self::getColumns($sRelatedTab, false);
                 
         $sId        = 'id';
         $sName      = 'id';
