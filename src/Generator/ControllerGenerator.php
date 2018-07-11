@@ -23,14 +23,14 @@ class ControllerGenerator extends BaseGenerator
      * 
      * @return void
      */
-    public function generate($sName = '', $sFolder = '')
+    public function generate($sTable = '', $sName = '', $sFolder = '')
     {
         self::createFile($sName.'Controller.php', [
             'Class'         => $sName.'Controller',
             'Repository'    => $sName.'Repository',
             'Request'       => $sName.'Request',
             'Path'          => strtolower($sFolder),
-            'Name'          => $sName
+            'Name'          => $sFolder.'.'.$sTable
         ]);
     }
 }

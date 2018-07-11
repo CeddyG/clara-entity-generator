@@ -12,9 +12,9 @@ class DummyClass extends ContentManagerController
     {
         $this->sPath            = 'admin/DummyPath';
         $this->sPathRedirect    = 'admin/DummyPath';
-        $this->sName            = 'DummyName';
+        $this->sName            = __('DummyName');
         
-        $this->oRepository = $oRepository;
-        $this->sRequest = 'App\Http\Requests\DummyRequest';
+        $this->oRepository  = $oRepository;
+        $this->sRequest     = 'App\Http\Requests\DummyRequest';
     }
 }
