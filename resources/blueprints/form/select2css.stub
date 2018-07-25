@@ -2,16 +2,6 @@
     {!! Html::style('bower_components/select2/dist/css/select2.min.css') !!}
 
     <style>
-        .select2
-        {
-            width: 100% !important
-        }
-        
-        .input-group
-        {
-            width: 100% !important
-        }
-        
         .input-group-addon:hover
         {
             color: black;
