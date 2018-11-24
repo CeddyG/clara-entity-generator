@@ -6,39 +6,40 @@
 @stop
 
 @section('content')
+<div class="row">
+    <div class="col-md-6">
+        @if(session()->has('ok'))
 
-<div class="col-md-6">
-    @if(session()->has('ok'))
+            <div class="alert alert-success alert-dismissible">{!! session('ok') !!}</div>
 
-        <div class="alert alert-success alert-dismissible">{!! session('ok') !!}</div>
+        @endif
 
-    @endif
-        
-    <!-- TABLE: LATEST ORDERS -->
-    <div class="box box-info">
-        <div class="box-header with-border">
-            <h3 class="box-title">Liste</h3>
+        <!-- TABLE: LATEST ORDERS -->
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Liste</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <table id="tab-admin" class="table no-margin table-bordered table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        DummyColName
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+                {!! Button::info('Ajouter')->asLinkTo(route('admin.DummyPath.create'))->small() !!}
+            </div>
+            <!-- /.box-footer -->
         </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            <table id="tab-admin" class="table no-margin table-bordered table-hover">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    DummyColName
-                    <th></th>
-                    <th></th>
-                </tr>
-                </thead>
-            </table>
-        </div>
-        <!-- /.box-body -->
-        <div class="box-footer clearfix">
-            {!! Button::info('Ajouter')->asLinkTo(route('admin.DummyPath.create'))->small() !!}
-        </div>
-        <!-- /.box-footer -->
+        <!-- /.box -->
     </div>
-    <!-- /.box -->
 </div>
 @endsection
 
