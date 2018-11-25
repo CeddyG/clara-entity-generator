@@ -1,7 +1,7 @@
     <!-- Select 2 -->
     {!! Html::script('bower_components/select2/dist/js/select2.full.min.js') !!}
     
-    <script type="text/javascript">
+    <script>
         $(document).ready(function() {
             $('.select2').wrap('<div class="input-group input-group-select2"></div>');
             $( ".input-group-select2" ).each(function () {

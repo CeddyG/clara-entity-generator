@@ -1,7 +1,7 @@
     <!-- ICheck -->
     {!! Html::script(adminlte/plugins/iCheck/icheck.min.js') !!}
     
-    <script type="text/javascript">
+    <script>
         $(document).ready(function() {
             $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
                 checkboxClass: 'icheckbox_minimal-blue wrapper-icheckbox',

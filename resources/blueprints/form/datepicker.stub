@@ -1,6 +1,6 @@
     {!! Html::script('bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') !!}
     
-    <script type="text/javascript">
+    <script>
         $(document).ready(function() {
             $('.date-picker-input').datepicker({
                 format: 'dd/mm/yyyy',
