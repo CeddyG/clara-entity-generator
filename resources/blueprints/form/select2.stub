@@ -1,5 +1,5 @@
                         DummyHidden
-                        @if(isset($oItem))
+                        @if(isset($oItem)DummyEmpty)
                             {!! BootForm::select(trans('DummyFolder.DummyTable'), 'DummyName')
                                 ->class('select2 form-control')
                                 ->options(DummyOptions)DummySelectedDummyMultiple
@@ -10,7 +10,7 @@
                             ]) !!}
                         @else
                             {!! BootForm::select(trans('DummyFolder.DummyTable'), 'DummyName')
-                                ->class('select2 form-control')
+                                ->class('select2 form-control')DummyMultiple
                                 ->data([
                                     'url-select'    => route('admin.DummyFolder.select.ajax'), 
                                     'url-create'    => route('admin.DummyFolder.create'),

@@ -139,6 +139,7 @@ class FormGenerator extends BaseGenerator
                     $this->getSelectedOptions($aRelation['related'], $aRelation['id_related'], $aRelation['name_field'], true),
                     "\n\t\t\t    ".$this->getSelectedOptionsMultiple($aRelation['related'], $aRelation['id_related']),
                     "\n\t\t\t    ->multiple()", 
+                    ' && !empty($oItem->'.$aRelation['related'].')', 
                     $aRelation['name_field'],
                     "{!! BootForm::hidden('DummyTable')->value('') !!}")
                 ."\n";
@@ -323,7 +324,8 @@ class FormGenerator extends BaseGenerator
         $sTable, 
         $sOptions, 
         $sSelected, 
-        $sMultiple, 
+        $sMultiple,
+        $sEmpty,
         $sNameField,
         $sHidden = ''
     )
@@ -337,6 +339,7 @@ class FormGenerator extends BaseGenerator
         $sStub = str_replace('DummyOptions', $sOptions, $sStub);
         $sStub = str_replace('DummySelected', $sSelected, $sStub);
         $sStub = str_replace('DummyMultiple', $sMultiple, $sStub);
+        $sStub = str_replace('DummyEmpty', $sEmpty, $sStub);
         $sStub = str_replace('DummyField', $sNameField, $sStub);
         
         return str_replace('DummyName', $sName, $sStub);
@@ -351,6 +354,7 @@ class FormGenerator extends BaseGenerator
             $aColumn['tableFk'], 
             $this->getSelectedOptions($aColumn['tableFk'], $aColumn['field'], $aColumn['name_field'], false),
             '',
+            '', 
             '', 
             $aColumn['name_field']);
     }
