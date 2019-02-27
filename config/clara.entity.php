@@ -6,8 +6,8 @@
 return [
     
     'route' => [
-        'prefix'    => '',
-        'middleware' => 'web'
+        'prefix'    => 'admin',
+        'middleware' => ['web', \CeddyG\ClaraSentinel\Http\Middleware\SentinelAccessMiddleware::class]
     ]
     
 ];
