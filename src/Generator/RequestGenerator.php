@@ -29,7 +29,7 @@ class RequestGenerator extends BaseGenerator
         
         self::createFile($sName.'Request.php', [
             'Class' => $sName.'Request',
-            'Rules' => implode(",\r\t", $aRules)
+            'Rules' => implode(",\r        ", $aRules)
         ]);
     }
     
