@@ -95,7 +95,7 @@ class ModelGenerator extends BaseGenerator
         $sDateField = isset($aDate['field']) ? $this->getDateArray($aDate['field'])."\n\n" : '';
         
         return [
-            'fillable'  => implode(",\n\t\t", $aFillable),
+            'fillable'  => implode(",\n        ", $aFillable),
             'date'      => $sDateField.$aDate['function'],
             'belongsto' => $sBelongsTo,
         ];
@@ -199,7 +199,7 @@ class ModelGenerator extends BaseGenerator
     protected function getDateArray($aField)
     {
         $sStub = $this->getSpecificStub('datearray');
-        $sStub = str_replace('DummyDateField', implode(",\n\t\t", $aField), $sStub);
+        $sStub = str_replace('DummyDateField', implode(",\n        ", $aField), $sStub);
         
         return $sStub;
     }

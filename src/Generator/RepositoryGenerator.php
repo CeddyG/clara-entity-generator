@@ -53,7 +53,7 @@ class RepositoryGenerator extends ModelGenerator
             'Id'        => $sId,
             'Date'      => $aField['date'],
             'Fk'        => $aField['belongsto'].$sForeignFunction,
-            'Relation'  => implode(",\n\t\t", $aRelations)
+            'Relation'  => implode(",\n        ", $aRelations)
         ]);
     }
     

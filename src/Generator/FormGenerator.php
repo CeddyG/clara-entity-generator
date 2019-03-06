@@ -137,8 +137,8 @@ class FormGenerator extends BaseGenerator
                     $aRelation['related'], 
                     $aRelation['related'], 
                     $this->getSelectedOptions($aRelation['related'], $aRelation['id_related'], $aRelation['name_field'], true),
-                    "\n\t\t\t    ".$this->getSelectedOptionsMultiple($aRelation['related'], $aRelation['id_related']),
-                    "\n\t\t\t    ->multiple()", 
+                    "\n                ".$this->getSelectedOptionsMultiple($aRelation['related'], $aRelation['id_related']),
+                    "\n                ->multiple()", 
                     ' && !empty($oItem->'.$aRelation['related'].')', 
                     $aRelation['name_field'],
                     "{!! BootForm::hidden('DummyTable')->value('') !!}")

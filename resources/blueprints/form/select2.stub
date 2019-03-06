@@ -4,7 +4,7 @@
                                 ->class('select2 form-control')
                                 ->options(DummyOptions)DummySelectedDummyMultiple
                                 ->data([
-                                    'url-select'    => route('admin.DummyFolder.select.ajax'), 
+                                    'url-select'    => route('api.admin.DummyFolder.select'), 
                                     'url-create'    => route('admin.DummyFolder.create'),
                                     'field'         => 'DummyField'
                             ]) !!}
@@ -12,7 +12,7 @@
                             {!! BootForm::select(trans('DummyFolder.DummyTable'), 'DummyName')
                                 ->class('select2 form-control')DummyMultiple
                                 ->data([
-                                    'url-select'    => route('admin.DummyFolder.select.ajax'), 
+                                    'url-select'    => route('api.admin.DummyFolder.select'), 
                                     'url-create'    => route('admin.DummyFolder.create'),
                                     'field'         => 'DummyField'
                             ]) !!}

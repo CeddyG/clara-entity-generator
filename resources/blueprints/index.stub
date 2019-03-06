@@ -52,7 +52,7 @@
             $('#tab-admin').DataTable({
                 serverSide: true,
                 ajax: {
-                    'url': '{{ route('admin.DummyPath.index.ajax') }}'
+                    'url': '{{ route('api.admin.DummyPath.index') }}'
                 },
                 columns: [
                     { 'data': 'DummyId' },
