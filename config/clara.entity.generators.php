@@ -26,6 +26,11 @@ return [
         'class' => CeddyG\ClaraEntityGenerator\Generator\RequestGenerator::class
     ],
     [
+        'name'  => 'event',
+        'label' => 'Event',
+        'class' => CeddyG\ClaraEntityGenerator\Generator\EventGenerator::class
+    ],
+    [
         'name'  => 'index',
         'label' => 'Index view',
         'class' => CeddyG\ClaraEntityGenerator\Generator\IndexGenerator::class

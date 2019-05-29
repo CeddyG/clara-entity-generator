@@ -7,7 +7,7 @@ use CeddyG\Clara\Http\Controllers\ContentManagerController;
 use App\Repositories\DummyRepository;
 
 class DummyClass extends ContentManagerController
-{
+{DummyEvent
     public function __construct(DummyRepository $oRepository)
     {
         $this->sPath            = 'admin/DummyPath';

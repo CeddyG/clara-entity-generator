@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Events\DummyNamespace;
+
+use CeddyG\Clara\Events\DefaultEvent\IdEvent;
+
+class BeforeDestroyEvent extends IdEvent
+{
+    
+}

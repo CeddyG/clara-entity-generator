@@ -23,14 +23,28 @@ class ControllerGenerator extends BaseGenerator
      * 
      * @return void
      */
-    public function generate($sTable = '', $sName = '', $sFolder = '')
+    public function generate($sTable = '', $sName = '', $sFolder = '', $aFiles = [])
     {
         self::createFile($sName.'Controller.php', [
             'Class'         => $sName.'Controller',
+            'Event'         => array_key_exists('event', $aFiles) ? $this->getEvent($sName) : '',
             'Repository'    => $sName.'Repository',
             'Request'       => $sName.'Request',
             'Path'          => strtolower($sFolder),
             'Name'          => $sFolder.'.'.$sTable
         ]);
+    }
+    
+    protected function getEvent($sName)
+    {
+        $sEvent = "\n";
+        $sEvent .= '    protected $sEventBeforeStore    = \App\Events\\'.$sName.'\BeforeStoreEvent::class;
+    protected $sEventAfterStore     = \App\Events\\'.$sName.'\AfterStoreEvent::class;
+    protected $sEventBeforeUpdate   = \App\Events\\'.$sName.'\BeforeUpdateEvent::class;
+    protected $sEventAfterUpdate    = \App\Events\\'.$sName.'\AfterUpdateEvent::class;
+    protected $sEventBeforeDestroy  = \App\Events\\'.$sName.'\BeforeDestroyEvent::class;';
+        $sEvent .= "\n";
+        
+        return $sEvent;
     }
 }
