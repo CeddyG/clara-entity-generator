@@ -31,6 +31,11 @@ return [
         'class' => CeddyG\ClaraEntityGenerator\Generator\EventGenerator::class
     ],
     [
+        'name'  => 'subscriber',
+        'label' => 'Subscriber',
+        'class' => CeddyG\ClaraEntityGenerator\Generator\SubscriberGenerator::class
+    ],
+    [
         'name'  => 'index',
         'label' => 'Index view',
         'class' => CeddyG\ClaraEntityGenerator\Generator\IndexGenerator::class

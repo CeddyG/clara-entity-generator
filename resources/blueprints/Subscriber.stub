@@ -1,0 +1,42 @@
+<?php
+
+namespace App\Listeners;
+
+use App\Repositories\DummyRepository;
+
+class DummyClass
+{
+    private $oRepository;
+    
+    public function __construct(DummyRepository $oRepository)
+    {
+        $this->oRepository = $oRepository;
+    }
+    
+    public function validate($oEvent) 
+    {
+        app('App\Http\Requests\DummyRequest');
+    }
+
+    public function store($oEvent) 
+    {
+        $aInputs = $oEvent->aInputs['DummyTable'];
+        
+        //Do what you want
+    }
+    
+    public function delete($oEvent)
+    {
+        //Delete your item
+    }
+
+    /**
+     * Register the listeners for the subscriber.
+     *
+     * @param  Illuminate\Events\Dispatcher  $oEvent
+     */
+    public function subscribe($oEvent)
+    {
+        //Subscribe to event you want
+    }
+}
