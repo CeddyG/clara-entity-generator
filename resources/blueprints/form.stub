@@ -15,7 +15,7 @@ DummyCSS
                     @endif
                 </div>
                 <div class="box-body"> 
-                    @if(isset($oItem))
+                    @if(isset($oItem))DummyLang
                         {!! BootForm::open()->action( route('admin.DummyPath.update', $oItem->DummyId) )->put() !!}
                         {!! BootForm::bind($oItem) !!}
                     @else
