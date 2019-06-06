@@ -151,7 +151,7 @@ class Entity
             
             $aMany = self::setPivotRelationTable($sTable, $aInputs);
             
-            $oGenerator->generate($sName, $sTable, $sFolder, $aMany, $aFiles);       
+            $oGenerator->generate($sName, $sTable, $sFolder, $aMany, $aFiles, $aInputs);       
         }
     }
     
@@ -194,7 +194,7 @@ class Entity
 		$aOptions = [];
 		foreach($aTables as $sTable => $aRelations)
         {
-			$aOptions[$sTable] = array('0' => __('clara-entity::entity.standard_relation'));
+			$aOptions[$sTable] = ['0' => __('clara-entity::entity.standard_relation')];
             
 			foreach($aRelations as $sRelation => $aRelatedTabs)
             {
@@ -202,6 +202,25 @@ class Entity
                 {
 					$aOptions[$sTable][$sValue] = __('clara-entity::entity.related_with', ['table' => $sRelated]);
 				}
+			}
+		}
+		
+		return $aOptions;
+	}
+	
+	public static function generateTypeSelectOptions($aTables)
+    {
+		$aOptions = [];
+		foreach($aTables as $sTable => $aRelations)
+        {
+			$aOptions[$sTable] = ['0' => __('clara-entity::entity.standard_relation')];
+		}
+        
+		foreach($aTables as $sTable => $aRelations)
+        {
+			foreach($aRelations as $sRelation => $aRelatedTabs)
+            {
+				$aOptions[$sRelation][$sTable] = __('clara-entity::entity.text_for', ['table' => $sTable]);
 			}
 		}
 		

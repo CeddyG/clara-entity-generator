@@ -1,1 +1,1 @@
-                        {!! BootForm::text(trans('DummyTable.DummyName'), 'DummyName') !!}
+                        {!! BootForm::text(__('DummyTable.DummyName'), 'DummyField') !!}

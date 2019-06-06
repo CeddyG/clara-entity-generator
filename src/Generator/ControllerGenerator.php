@@ -42,7 +42,8 @@ class ControllerGenerator extends BaseGenerator
     protected $sEventAfterStore     = \App\Events\\'.$sName.'\AfterStoreEvent::class;
     protected $sEventBeforeUpdate   = \App\Events\\'.$sName.'\BeforeUpdateEvent::class;
     protected $sEventAfterUpdate    = \App\Events\\'.$sName.'\AfterUpdateEvent::class;
-    protected $sEventBeforeDestroy  = \App\Events\\'.$sName.'\BeforeDestroyEvent::class;';
+    protected $sEventBeforeDestroy  = \App\Events\\'.$sName.'\BeforeDestroyEvent::class;
+    protected $sEventAfterDestroy   = \App\Events\\'.$sName.'\AfterDestroyEvent::class;';
         $sEvent .= "\n";
         
         return $sEvent;

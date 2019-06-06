@@ -30,7 +30,7 @@ class EntityGenerator
         }
     }
 
-    public function generate($sName, $sTable, $sFolder, $aMany, $aFiles)
+    public function generate($sName, $sTable, $sFolder, $aMany, $aFiles, $aInputs)
     {
         //Table name
         $sTable = strtolower($sTable);

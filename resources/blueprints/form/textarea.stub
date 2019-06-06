@@ -1,2 +1,2 @@
-                        {!! BootForm::textarea(trans('DummyTable.DummyName'), 'DummyName')->addClass('ckeditor') !!}
+                        {!! BootForm::textarea(__('DummyTable.DummyName'), 'DummyField')->addClass('ckeditor') !!}
                         

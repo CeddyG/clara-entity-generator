@@ -2,9 +2,9 @@
 
 namespace App\Events\DummyNamespace;
 
-use CeddyG\Clara\Events\DefaultEvent\IdAndInputEvent;
+use CeddyG\Clara\Events\DefaultEvent\IdEvent;
 
-class AfterDestroyEvent extends IdAndInputEvent
+class AfterDestroyEvent extends IdEvent
 {
     
 }

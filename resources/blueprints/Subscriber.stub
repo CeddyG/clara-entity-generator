@@ -22,12 +22,12 @@ class DummyClass
     {
         $aInputs = $oEvent->aInputs['DummyTable'];
         
-        //Do what you want
+        DummyStoreCode
     }
     
     public function delete($oEvent)
     {
-        //Delete your item
+        DummyDeleteCode
     }
 
     /**
@@ -37,6 +37,6 @@ class DummyClass
      */
     public function subscribe($oEvent)
     {
-        //Subscribe to event you want
+        DummySubscribeCode
     }
 }

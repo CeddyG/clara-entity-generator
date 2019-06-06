@@ -68,31 +68,61 @@ class FormGenerator extends BaseGenerator
      * @var array
      */
     protected $aStubs = [];
+    
+    /**
+     * Is the current table is a text table ?
+     * 
+     * @var bool
+     */
+    protected $bIsText = false;
+    
+    protected $sFkTextField     = '';
 
     /**
      * Generate the file.
      * 
      * @return void
      */
-    public function generate($sTable = '', $sFolder = '', $aColumns = '', $aRelations = '')
+    public function generate($sTable = '', $sFolder = '', $aColumns = '', $aRelations = '', $aInputs = [])
     {
+        $this->bIsText = $aInputs['type-'.$sTable] != '0';
+        
+        $this->checkIfIsTextTable($sTable, $aInputs, $aColumns);
+        
+        $sLang = in_array($sTable, $aInputs) 
+            ? "\n".'                        @php $oItem->'.$this->getTextTable($sTable, $aInputs).' = $oItem->'.$this->getTextTable($sTable, $aInputs).'->keyBy(\'fk_lang\')->toArray() @endphp'."\n"
+            : '';
+        
         $sId    = 'id';
-        $sField = $this->buildFields($sId, $sTable, $aColumns);
+        $sField = $this->buildFields($sId, $sTable, $aColumns, $aInputs);
         
         $this->buildFieldsFromRelations($sField, $aRelations);
         
-        $sJs    = $this->getJs();
-        $sCss   = $this->getCss();
+        $sFile = $this->bIsText
+            ? str_replace('_', '-', $aInputs['type-'.$sTable]).'/text.blade.php'
+            : $sFolder.'/form.blade.php';
         
-        self::createFile($sFolder.'/form.blade.php', [
-            'CSS'   => $sCss,
+        self::createFile($sFile, [
+            'CSS'   => $this->getCss(),
+            'Lang'  => $sLang,
             'Path'  => strtolower($sFolder),
             'Id'    => $sId,
             'Field' => $sField,
-            'JS'    => $sJs
+            'JS'    => $this->getJs()
         ]);
     }
     
+    private function checkIfIsTextTable($sTable, $aInputs, $aColumns)
+    {
+        if ($this->bIsText)
+        {
+            $this->getFkTextField($aInputs['type-'.$sTable], $aColumns);
+            
+            $this->aExclude[]   = 'fk_lang';
+            static::$STUB       = 'form-text';
+        }
+    }
+
     /**
      * Build the code for given fields.
      * 
@@ -102,9 +132,11 @@ class FormGenerator extends BaseGenerator
      * 
      * @return string $sField
      */
-    private function buildFields(&$sId, $sTable, $aColumns)
+    private function buildFields(&$sId, $sTable, $aColumns, $aInputs)
     {
-        $sField = '';
+        $sField = in_array($sTable, $aInputs)
+            ? "                    {!! BootForm::viewTabPane('admin.".str_replace('_', '-', $sTable).".text', ClaraLang::getActiveLang()) !!}\n"
+            : '';
         
         foreach ($aColumns as $aColumn)
         {
@@ -179,7 +211,10 @@ class FormGenerator extends BaseGenerator
     {
         if($aColumn['key'] == 'FK')
         {
-            $sField .= $this->getFieldFk($aColumn)."\n";
+            if ($this->sFkTextField != $aColumn['field'])
+            {
+                $sField .= $this->getFieldFk($aColumn) . "\n";
+            }
         }
         else
         {
@@ -196,28 +231,32 @@ class FormGenerator extends BaseGenerator
      * 
      * @return void
      */
-    private function switchField(&$sField, $sTable, $aColumn)
+    private function switchField(&$sFields, $sTable, $aColumn)
     {
+        $sField = $this->bIsText 
+            ? $sTable.'[\'.$iIdView.\']['.$aColumn['field'].']'
+            : $aColumn['field'];
+            
         switch ($aColumn['type'])
         {
             case"text":
             case"blob":    
-                $sField .= $this->getFieldTextArea($sTable, $aColumn['field'])."\n";
+                $sFields .= $this->getFieldTextArea($sTable, $aColumn['field'], $sField)."\n";
                 $this->bCkeditor = true;
                 break;
 
             case"boolean":    
-                $sField .= $this->getFieldCheck($sTable, $aColumn['field'])."\n";
+                $sFields .= $this->getFieldCheck($sTable, $aColumn['field'], $sField)."\n";
                 $this->bICheck = true;
                 break;
 
             case"date":    
-                $sField .= $this->getFieldDate($sTable, $aColumn['field'])."\n";
+                $sFields .= $this->getFieldDate($sTable, $aColumn['field'], $sField)."\n";
                 $this->bDatepicker = true;
                 break;
 
             default:
-                $sField .= $this->getFieldText($sTable, $aColumn['field'])."\n";
+                $sFields .= $this->getFieldText($sTable, $aColumn['field'], $sField)."\n";
                 break;
         }
     }
@@ -290,33 +329,34 @@ class FormGenerator extends BaseGenerator
         return $this->aStubs[$sName];
     }
     
-    private function replaceTableAndName($sStubName, $sTable, $sName)
+    private function replaceTableAndName($sStubName, $sTable, $sName, $sField)
     {
         $sStub = $this->getSpecificStub($sStubName);
         $sStub = str_replace('DummyTable', str_replace('_', '-', $sTable), $sStub);
         $sStub = str_replace('DummyName', $sName, $sStub);
+        $sStub = str_replace('DummyField', $sField, $sStub);
         
         return $sStub;
     }
 
-    private function getFieldText($sTable, $sName)
+    private function getFieldText($sTable, $sName, $sField)
     {
-        return $this->replaceTableAndName('text', $sTable, $sName);
+        return $this->replaceTableAndName('text', $sTable, $sName, $sField);
     }
     
-    private function getFieldTextArea($sTable, $sName)
+    private function getFieldTextArea($sTable, $sName, $sField)
     {
-        return $this->replaceTableAndName('textarea', $sTable, $sName);
+        return $this->replaceTableAndName('textarea', $sTable, $sName, $sField);
     }
     
-    private function getFieldDate($sTable, $sName)
+    private function getFieldDate($sTable, $sName, $sField)
     {
-        return $this->replaceTableAndName('date', $sTable, $sName);
+        return $this->replaceTableAndName('date', $sTable, $sName, $sField);
     }
     
-    private function getFieldCheck($sTable, $sName)
+    private function getFieldCheck($sTable, $sName, $sField)
     {
-        return $this->replaceTableAndName('check', $sTable, $sName);
+        return $this->replaceTableAndName('check', $sTable, $sName, $sField);
     }
     
     private function getFieldSelect2(
@@ -392,5 +432,27 @@ class FormGenerator extends BaseGenerator
     private function getCssICheck()
     {
         return $this->getSpecificStub('icheckcss');
+    }
+    
+    private function getFkTextField($sFkTable, $aColumns)
+    {
+        foreach ($aColumns as $i => $column)
+        {
+            if (!array_has($column, 'tableFk'))
+            {
+                $aColumns[$i]['tableFk'] = '';
+            }
+        }
+        
+        $iKey = array_search($sFkTable, array_column($aColumns, 'tableFk'));
+        
+        $this->sFkTextField = $aColumns[$iKey]['field'];
+    }
+    
+    private function getTextTable($sTable, $aInputs)
+    {
+        $sKey = array_search($sTable, $aInputs);
+        
+        return str_replace('type-', '', $sKey);
     }
 }

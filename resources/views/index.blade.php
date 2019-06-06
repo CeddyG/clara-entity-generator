@@ -55,7 +55,7 @@
     {!! BootForm::open()->action(route('clara-entity.store'))->post() !!}
     @foreach($aTables as $sTable => $arelations)
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-xs-12">
             <br>
             <div id="box-{{ $sTable }}" class="box box-info">
                 <div class="box-header with-border">
@@ -76,7 +76,7 @@
                         @endforeach
                     </div>
 
-                    <div class="col-sm-8 block-form">
+                    <div class="col-sm-6 block-form">
                         <h4 class="box-title">Relations</h4>
                         @if(count($arelations) > 0)
                             <table class="table table-condensed table-bordered">
@@ -93,7 +93,7 @@
                                         <td>
                                             @if(count($aRelats) > 0)
                                                 {!!
-                                                    BootForm::select('', 'related-'. $sTable.'[]')
+                                                    BootForm::select('', 'related-'.$sTable.'[]')
                                                         ->class('select2')
                                                         ->options($aRelationOptions[$sTable])
                                                         ->select('0')
@@ -111,6 +111,17 @@
                         <div class="row no-relation"><b>{{ __('clara-entity::entity.no_relations') }}</b></div>
                         @endif
                     </div>
+                    
+                    <div class="col-sm-2 block-form">
+                        <h4 class="box-title">Type</h4>
+                        {!!
+                            BootForm::select('', 'type-'.$sTable)
+                                ->class('select2')
+                                ->options($aTypeOptions[$sTable])
+                                ->select('0')
+                                ->attribute('autocomplete', 'off')
+                        !!}
+                    </div>
                 </div>
             </div>
         </div>
@@ -127,7 +138,7 @@
     <!-- Select 2 -->
     {!! Html::script('bower_components/select2/dist/js/select2.full.min.js') !!}
 
-    <script type="text/javascript">
+    <script>
         $(document).ready(function() {
             $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
                 checkboxClass: 'icheckbox_minimal-blue wrapper-icheckbox',

@@ -10,21 +10,18 @@ class EntityController extends Controller
 {
     public function index()
     {
-        $aTables            = Entity::getTables();
-        $sPageTitle         = 'Entity';
-	    $aGotoOptions       = Entity::generateGotoSelectOptions($aTables);
-	    $aRelationOptions   = Entity::generateRelationSelectOptions($aTables);
-	    $aGenerators        = Entity::getGenerators();
+        $aTables = Entity::getTables();
         
         return view(
             'clara-entity::index', 
-            compact(
-                'aTables', 
-                'sPageTitle', 
-                'aGotoOptions', 
-                'aRelationOptions', 
-                'aGenerators'
-            )
+            [
+                'aTables'           => $aTables, 
+                'sPageTitle'        => 'Entity', 
+                'aGotoOptions'      => Entity::generateGotoSelectOptions($aTables), 
+                'aRelationOptions'  => Entity::generateRelationSelectOptions($aTables), 
+                'aTypeOptions'      => Entity::generateTypeSelectOptions($aTables), 
+                'aGenerators'       => Entity::getGenerators()
+            ]
         );
     }
     
