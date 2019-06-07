@@ -90,7 +90,18 @@ class ModelGenerator extends BaseGenerator
                 $this->checkForDate($aDate, $aColumn);
                 $this->checkForBelongsTo($sBelongsTo, $aColumn);
             }
-        }  
+        }
+        
+        if (count($aFillable) == 0)
+        {
+            $aField = array_column($aColumns, 'field');
+            
+            if (in_array('created_at', $aField) && in_array('updated_at', $aField))
+            {
+                $aFillable[] = "'created_at'";
+                $aFillable[] = "'updated_at'";
+            }
+        }
         
         $sDateField = isset($aDate['field']) ? $this->getDateArray($aDate['field'])."\n\n" : '';
         

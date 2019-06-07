@@ -19,7 +19,7 @@ class DummyClass extends QueryBuilderRepository
     protected $aFillable = [
         DummyFillable
     ];
-    
+    DummyTimestamp
 DummyDate   
 DummyFk
 }

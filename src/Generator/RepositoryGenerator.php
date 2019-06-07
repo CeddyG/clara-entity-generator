@@ -51,10 +51,20 @@ class RepositoryGenerator extends ModelGenerator
             'Table'     => $sTable,
             'Fillable'  => $aField['fillable'],
             'Id'        => $sId,
+            'Timestamp' => $this->getTimestamp($aColumns),
             'Date'      => $aField['date'],
             'Fk'        => $aField['belongsto'].$sForeignFunction,
             'Relation'  => implode(",\n        ", $aRelations)
         ]);
+    }
+    
+    protected function getTimestamp($aColumns)
+    {
+        $aField = array_column($aColumns, 'field');
+        
+        return in_array('created_at', $aField) && in_array('updated_at', $aField)
+            ? "\n".'    protected $bTimestamp = true;'."\n"
+            : '';
     }
     
     protected function getFunctionDate($sField)
