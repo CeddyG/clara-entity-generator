@@ -124,6 +124,9 @@ class SubscriberGenerator extends BaseGenerator
     private function generateConfig($sClass)
     {
         $aConfig = config('clara.subscriber', []);
+        $aConfig[] = $sClass;
+        
+        Config::set('clara.subscriber', $aConfig);
         
         if (!in_array($sClass, $aConfig))
         {
@@ -141,6 +144,9 @@ class SubscriberGenerator extends BaseGenerator
             self::createFile('clara.subscriber.php', [
                 'Config' => implode(",\n", $aNewConfig)
             ]);
+            
+            static::$PATH = '/app/Listeners/';
+            static::$STUB = 'Subscriber';
         }
     }
 }

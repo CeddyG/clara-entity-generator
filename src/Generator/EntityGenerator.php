@@ -7,12 +7,19 @@ class EntityGenerator
     protected $aGenerator = [];
     
     protected $aParameters = [];
+    
+    protected $iFiles = 0;
 
     public function __construct(array $aGenerator)
     {
         $this->aGenerator = $aGenerator;
         
         $this->getParameters();
+    }
+    
+    public function getNbFiles()
+    {
+        return $this->iFiles;
     }
     
     private function getParameters()
@@ -49,6 +56,8 @@ class EntityGenerator
             }
             
             call_user_func_array([$this->aGenerator[$sIndex], 'generate'], $aParameters);
+            
+            $this->iFiles++;
         }
     }
     
@@ -115,7 +124,7 @@ class EntityGenerator
     {
         $aColumn['exclude'] = false;
         
-        if($oTable->getPrimaryKey()->getColumns()[0] == $oColumn->getName())
+        if($oTable->hasPrimaryKey() && $oTable->getPrimaryKey()->getColumns()[0] == $oColumn->getName())
         {
             $aColumn['key']     = 'PRI';
             $aColumn['exclude'] = true;

@@ -153,6 +153,8 @@ class Entity
             
             $oGenerator->generate($sName, $sTable, $sFolder, $aMany, $aFiles, $aInputs);       
         }
+        
+        Session::flash('success', __('clara-entity::entity.file_generated', ['nb' => $oGenerator->getNbFiles()]));
     }
     
     private static function setPivotRelationTable($sTable, $aInputs)

@@ -6,4 +6,5 @@ return array(
 	'standard_relation' => 'Relation standard',
     'choose_a_table'    => 'Choisissez une table',
     'text_for'          => 'Texte pour :table',
+    'file_generated'    => ':nb fichiers générés',
 );

@@ -28,6 +28,8 @@ class RouteApiGenerator extends BaseGenerator
         $aConfig = config('clara.route.api', []);
         $aConfig[$sFolder]  = $sName;
         
+        Config::set('clara.route.admin', $aConfig);
+        
         $aNewConfig = [];
         foreach ($aConfig as $sKey => $sValue)
         {

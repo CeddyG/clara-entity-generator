@@ -28,6 +28,8 @@ class RouteAdminGenerator extends BaseGenerator
         $aConfig = config('clara.route.admin', []);
         $aConfig[$sFolder]  = $sName;
         
+        Config::set('clara.route.admin', $aConfig);
+        
         $aNewConfig = [];
         foreach ($aConfig as $sKey => $sValue)
         {
