@@ -2,6 +2,8 @@
 
 namespace CeddyG\ClaraEntityGenerator\Generator;
 
+use Config;
+
 class SubscriberGenerator extends BaseGenerator
 {
     /*
