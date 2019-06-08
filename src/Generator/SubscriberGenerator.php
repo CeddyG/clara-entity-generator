@@ -125,17 +125,15 @@ class SubscriberGenerator extends BaseGenerator
     
     private function generateConfig($sClass)
     {
-        $aConfig = config('clara.subscriber', []);
-        $aConfig[] = $sClass;
-        
-        Config::set('clara.subscriber', $aConfig);
+        $aConfig = config('clara.subscriber', []);        
         
         if (!in_array($sClass, $aConfig))
         {
+            $aConfig[]  = $sClass;
+            Config::set('clara.subscriber', $aConfig);
+            
             static::$PATH = '/config/';
             static::$STUB = 'config';
-
-            $aConfig[]  = $sClass;
 
             $aNewConfig = [];
             foreach ($aConfig as $sKey => $sValue)
