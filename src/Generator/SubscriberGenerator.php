@@ -3,6 +3,8 @@
 namespace CeddyG\ClaraEntityGenerator\Generator;
 
 use Config;
+use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 class SubscriberGenerator extends BaseGenerator
 {
@@ -78,7 +80,7 @@ class SubscriberGenerator extends BaseGenerator
     
     private function getSubscribeCode($bIsText, $sName, $sFkTable)
     {
-        $sNameFk = ucfirst(camel_case($sFkTable));
+        $sNameFk = ucfirst(Str::camel($sFkTable));
         
         return !$bIsText
             ? '//Subscribe to event you want'
@@ -112,7 +114,7 @@ class SubscriberGenerator extends BaseGenerator
     {
         foreach ($aColumns as $i => $column)
         {
-            if (!array_has($column, 'tableFk'))
+            if (!Arr::has($column, 'tableFk'))
             {
                 $aColumns[$i]['tableFk'] = '';
             }

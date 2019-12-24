@@ -3,6 +3,7 @@
 namespace CeddyG\ClaraEntityGenerator\Generator;
 
 use File;
+use Illuminate\Support\Str;
 
 class ModelGenerator extends BaseGenerator
 {
@@ -217,7 +218,7 @@ class ModelGenerator extends BaseGenerator
     
     protected function getFunctionDate($sField)
     {
-        $sName = ucfirst(camel_case($sField));
+        $sName = ucfirst(Str::camel($sField));
         
         $sStub = $this->getSpecificStub('date');
         $sStub = str_replace('DummyName', $sName, $sStub);
@@ -228,7 +229,7 @@ class ModelGenerator extends BaseGenerator
     
     public function getFunctionBelongsTo($aColumn)
     {
-        $sModel     = ucfirst(camel_case($aColumn['tableFk']));
+        $sModel     = ucfirst(Str::camel($aColumn['tableFk']));
         
         $sStub = $this->getSpecificStub('belongsto');
         $sStub = str_replace('DummyFunction', $aColumn['tableFk'], $sStub);
@@ -240,7 +241,7 @@ class ModelGenerator extends BaseGenerator
     
     public function getFunctionBelongsToMany($aRelation)
     {
-        $sModel     = ucfirst(camel_case($aRelation['related']));
+        $sModel     = ucfirst(Str::camel($aRelation['related']));
         
         $sStub = $this->getSpecificStub('belongstomany');
         $sStub = str_replace('DummyFunction', $aRelation['related'], $sStub);
@@ -254,7 +255,7 @@ class ModelGenerator extends BaseGenerator
     
     public function getFunctionHasMany($aRelation)
     {
-        $sModel = ucfirst(camel_case($aRelation['related']));
+        $sModel = ucfirst(Str::camel($aRelation['related']));
         
         $sStub = $this->getSpecificStub('hasmany');
         $sStub = str_replace('DummyFunction', $aRelation['related'], $sStub);

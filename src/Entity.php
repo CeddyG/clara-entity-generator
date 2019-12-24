@@ -3,6 +3,7 @@
 namespace CeddyG\ClaraEntityGenerator;
 
 use Session;
+use Illuminate\Support\Str;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 
@@ -147,7 +148,7 @@ class Entity
         
         foreach($aInputs['table'] as $sTable => $aFiles)
         {
-            $sName      = ucfirst(camel_case($sTable));
+            $sName      = ucfirst(Str::camel($sTable));
             $sFolder    = str_replace('_', '-', $sTable);
             
             $aMany = self::setPivotRelationTable($sTable, $aInputs);

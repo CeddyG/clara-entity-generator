@@ -2,6 +2,8 @@
 
 namespace CeddyG\ClaraEntityGenerator\Generator;
 
+use Illuminate\Support\Str;
+
 class RepositoryGenerator extends ModelGenerator
 {
     /*
@@ -74,7 +76,7 @@ class RepositoryGenerator extends ModelGenerator
     
     public function getFunctionBelongsTo($aColumn)
     {
-        $sRepository = ucfirst(camel_case($aColumn['tableFk']));
+        $sRepository = ucfirst(Str::camel($aColumn['tableFk']));
         
         $sStub = $this->getSpecificStub('belongsto');
         $sStub = str_replace('DummyFunction', $aColumn['tableFk'], $sStub);
@@ -88,7 +90,7 @@ class RepositoryGenerator extends ModelGenerator
     
     public function getFunctionBelongsToMany($aRelation)
     {
-        $sRepository = ucfirst(camel_case($aRelation['related']));
+        $sRepository = ucfirst(Str::camel($aRelation['related']));
         
         $sStub = $this->getSpecificStub('belongstomany');
         $sStub = str_replace('DummyFunction', $aRelation['related'], $sStub);
@@ -104,7 +106,7 @@ class RepositoryGenerator extends ModelGenerator
     
     public function getFunctionHasMany($aRelation)
     {
-        $sRepository = ucfirst(camel_case($aRelation['related']));
+        $sRepository = ucfirst(Str::camel($aRelation['related']));
         
         $sStub = $this->getSpecificStub('hasmany');
         $sStub = str_replace('DummyFunction', $aRelation['related'], $sStub);

@@ -3,6 +3,7 @@
 namespace CeddyG\ClaraEntityGenerator\Generator;
 
 use File;
+use Illuminate\Support\Arr;
 
 class FormGenerator extends BaseGenerator
 {
@@ -438,7 +439,7 @@ class FormGenerator extends BaseGenerator
     {
         foreach ($aColumns as $i => $column)
         {
-            if (!array_has($column, 'tableFk'))
+            if (!Arr::has($column, 'tableFk'))
             {
                 $aColumns[$i]['tableFk'] = '';
             }
