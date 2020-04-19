@@ -98,7 +98,7 @@ class IndexGenerator extends BaseGenerator
             }
         }
         
-        $aFields['head'] = implode("\r                    ", $aFields['head']);
+        $aFields['head'] = implode("\r                        ", $aFields['head']);
         $aFields['body'] = implode("\r                    ", $aFields['body']);
     }
     

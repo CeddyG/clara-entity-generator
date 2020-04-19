@@ -52,7 +52,10 @@
             $('#tab-admin').DataTable({
                 serverSide: true,
                 ajax: {
-                    'url': '{{ route('api.admin.DummyPath.index') }}'
+                    'url': '{{ route('api.admin.DummyPath.index') }}',
+                    headers: {
+                        "Authorization": "Bearer {{ Sentinel::getUser()->api_token }}"
+                    }
                 },
                 columns: [
                     { 'data': 'DummyId' },

@@ -2,6 +2,8 @@
 
 namespace CeddyG\ClaraEntityGenerator\Generator;
 
+use Config;
+
 class NavbarGenerator extends BaseGenerator
 {
     /*
@@ -25,10 +27,10 @@ class NavbarGenerator extends BaseGenerator
      */
     public function generate($sFolder = '')
     {
-        $sFile = base_path().'/config/clara.navbar.php';
-        
-        $aConfig = file_exists($sFile) ? include $sFile : [];
+        $aConfig = config('clara.navbar', []);
         $aConfig[$sFolder]  = ucwords(str_replace('-', ' ', $sFolder));
+        
+        Config::set('clara.navbar', $aConfig);
         
         $sConfig = var_export($aConfig, true);
         $sConfig = str_replace('  array (', '[', $sConfig);
