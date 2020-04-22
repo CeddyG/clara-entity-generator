@@ -14,6 +14,9 @@
                     url: function () {
                         return $(this).attr('data-url-select');
                     },
+                    headers: {
+                        "Authorization": "Bearer {{ Sentinel::getUser()->api_token }}"
+                    },
                     dataType: 'json',
                     delay: 10,
                     data: function (params) {
